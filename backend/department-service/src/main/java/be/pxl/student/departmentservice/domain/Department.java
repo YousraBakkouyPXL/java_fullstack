@@ -5,6 +5,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 public class Department {
@@ -16,7 +17,7 @@ public class Department {
     @NotBlank
     private String name;
 
-    @NotBlank
+    @NotNull
     private Long organizationId;
 
     public Long getOrganizationId() {

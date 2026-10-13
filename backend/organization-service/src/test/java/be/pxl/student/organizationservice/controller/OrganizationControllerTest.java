@@ -1,5 +1,7 @@
 package be.pxl.student.organizationservice.controller;
 
+import be.pxl.student.organizationservice.client.DepartmentClient;
+import be.pxl.student.organizationservice.client.EmployeeClient;
 import be.pxl.student.organizationservice.domain.dto.OrganizationResponse;
 import be.pxl.student.organizationservice.service.OrganizationService;
 import org.junit.jupiter.api.Test;
@@ -24,6 +26,12 @@ class OrganizationControllerTest {
 
     @MockitoBean
     private OrganizationService organizationService;
+
+    @MockitoBean
+    private DepartmentClient departmentClient;
+
+    @MockitoBean
+    private EmployeeClient employeeClient;
 
     @Test
     void addOrganization_withValidBody_returns201() throws Exception {

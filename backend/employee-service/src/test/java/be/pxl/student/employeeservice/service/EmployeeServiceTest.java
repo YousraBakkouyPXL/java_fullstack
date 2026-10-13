@@ -1,5 +1,6 @@
 package be.pxl.student.employeeservice.service;
 
+import be.pxl.student.employeeservice.client.NotificationClient;
 import be.pxl.student.employeeservice.domain.Employee;
 import be.pxl.student.employeeservice.domain.dto.EmployeeRequest;
 import be.pxl.student.employeeservice.domain.dto.EmployeeResponse;
@@ -21,6 +22,9 @@ class EmployeeServiceTest {
 
     @Mock
     private EmployeeRepository employeeRepository;
+
+    @Mock
+    private NotificationClient notificationClient;
 
     @InjectMocks
     private EmployeeService employeeService;
@@ -44,6 +48,7 @@ class EmployeeServiceTest {
 
         ArgumentCaptor<Employee> captor = ArgumentCaptor.forClass(Employee.class);
         verify(employeeRepository).save(captor.capture());
+        verify(notificationClient).sendNotification(any());
         Employee savedEmployee = captor.getValue();
 
         assertEquals("Yousra", savedEmployee.getFirstName());

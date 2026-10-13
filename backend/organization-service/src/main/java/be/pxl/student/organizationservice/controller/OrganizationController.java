@@ -1,5 +1,7 @@
 package be.pxl.student.organizationservice.controller;
 
+import be.pxl.student.organizationservice.client.DepartmentClient;
+import be.pxl.student.organizationservice.client.EmployeeClient;
 import be.pxl.student.organizationservice.domain.dto.OrganizationRequest;
 import be.pxl.student.organizationservice.domain.dto.OrganizationResponse;
 import be.pxl.student.organizationservice.service.OrganizationService;
@@ -23,9 +25,13 @@ import java.util.Map;
 public class OrganizationController {
 
     private final OrganizationService organizationService;
+    private final DepartmentClient departmentClient;
+    private final EmployeeClient employeeClient;
 
-    public OrganizationController(OrganizationService organizationService) {
+    public OrganizationController(OrganizationService organizationService, DepartmentClient departmentClient, EmployeeClient employeeClient) {
         this.organizationService = organizationService;
+        this.departmentClient = departmentClient;
+        this.employeeClient = employeeClient;
     }
 
     @PostMapping
@@ -48,7 +54,7 @@ public class OrganizationController {
     public Map<String, Object> getOrganizationWithDepartments(@PathVariable Long id) {
         return Map.of(
                 "organization", organizationService.getOrganization(id),
-                "departments", List.of()
+                "departments", departmentClient.getDepartmentsByOrganization(id)
         );
     }
 
@@ -56,7 +62,7 @@ public class OrganizationController {
     public Map<String, Object> getOrganizationWithEmployees(@PathVariable Long id) {
         return Map.of(
                 "organization", organizationService.getOrganization(id),
-                "employees", List.of()
+                "employees", employeeClient.getEmployeesByOrganization(id)
         );
     }
 
@@ -64,8 +70,8 @@ public class OrganizationController {
     public Map<String, Object> getOrganizationWithDepartmentsAndEmployees(@PathVariable Long id) {
         return Map.of(
                 "organization", organizationService.getOrganization(id),
-                "departments", List.of(),
-                "employees", List.of()
+                "departments", departmentClient.getDepartmentsByOrganization(id),
+                "employees", employeeClient.getEmployeesByOrganization(id)
         );
     }
 

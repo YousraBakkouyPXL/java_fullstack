@@ -1,5 +1,6 @@
 package be.pxl.student.departmentservice.controller;
 
+import be.pxl.student.departmentservice.client.EmployeeClient;
 import be.pxl.student.departmentservice.domain.dto.DepartmentRequest;
 import be.pxl.student.departmentservice.domain.dto.DepartmentResponse;
 import be.pxl.student.departmentservice.service.DepartmentService;
@@ -23,9 +24,11 @@ import java.util.Map;
 public class DepartmentController {
 
     private final DepartmentService departmentService;
+    private final EmployeeClient employeeClient;
 
-    public DepartmentController(DepartmentService departmentService) {
+    public DepartmentController(DepartmentService departmentService, EmployeeClient employeeClient) {
         this.departmentService = departmentService;
+        this.employeeClient = employeeClient;
     }
 
     @PostMapping
@@ -53,7 +56,7 @@ public class DepartmentController {
     public Map<String, Object> getDepartmentsByOrganizationWithEmployees(@PathVariable Long organizationId) {
         return Map.of(
                 "departments", departmentService.getDepartmentsByOrganization(organizationId),
-                "employees", List.of()
+                "employees", employeeClient.getEmployeesByOrganization(organizationId)
         );
     }
 

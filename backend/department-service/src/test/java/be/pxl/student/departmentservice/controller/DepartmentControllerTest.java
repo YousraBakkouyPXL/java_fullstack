@@ -1,5 +1,6 @@
 package be.pxl.student.departmentservice.controller;
 
+import be.pxl.student.departmentservice.client.EmployeeClient;
 import be.pxl.student.departmentservice.domain.dto.DepartmentResponse;
 import be.pxl.student.departmentservice.service.DepartmentService;
 import org.junit.jupiter.api.Test;
@@ -24,6 +25,9 @@ class DepartmentControllerTest {
 
     @MockitoBean
     private DepartmentService departmentService;
+
+    @MockitoBean
+    private EmployeeClient employeeClient;
 
     @Test
     void addDepartment_withValidBody_returns201() throws Exception {

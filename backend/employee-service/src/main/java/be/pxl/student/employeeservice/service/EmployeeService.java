@@ -1,5 +1,7 @@
 package be.pxl.student.employeeservice.service;
 
+import be.pxl.student.employeeservice.client.NotificationClient;
+import be.pxl.student.employeeservice.client.dto.NotificationRequest;
 import be.pxl.student.employeeservice.domain.Employee;
 import be.pxl.student.employeeservice.domain.dto.EmployeeRequest;
 import be.pxl.student.employeeservice.domain.dto.EmployeeResponse;
@@ -14,15 +16,19 @@ import java.util.List;
 public class EmployeeService {
 
     private final EmployeeRepository employeeRepository;
+    private final NotificationClient notificationClient;
 
-    public EmployeeService(EmployeeRepository employeeRepository) {
+    public EmployeeService(EmployeeRepository employeeRepository, NotificationClient notificationClient) {
         this.employeeRepository = employeeRepository;
+        this.notificationClient = notificationClient;
     }
 
     public EmployeeResponse createEmployee(EmployeeRequest request) {
         Employee employee = new Employee();
         updateEmployeeFields(employee, request);
-        return mapToResponse(employeeRepository.save(employee));
+        Employee savedEmployee = employeeRepository.save(employee);
+        notificationClient.sendNotification(new NotificationRequest("Employee created: " + savedEmployee.getId()));
+        return mapToResponse(savedEmployee);
     }
 
     public EmployeeResponse getEmployee(Long id) {

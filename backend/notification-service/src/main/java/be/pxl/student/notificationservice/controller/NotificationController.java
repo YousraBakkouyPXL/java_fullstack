@@ -2,6 +2,7 @@ package be.pxl.student.notificationservice.controller;
 
 import be.pxl.student.notificationservice.domain.dto.NotificationRequest;
 import be.pxl.student.notificationservice.domain.dto.NotificationResponse;
+import be.pxl.student.notificationservice.service.NotificationService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,9 +15,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/notifications")
 public class NotificationController {
 
+    private final NotificationService notificationService;
+
+    public NotificationController(NotificationService notificationService) {
+        this.notificationService = notificationService;
+    }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public NotificationResponse sendNotification(@Valid @RequestBody NotificationRequest request) {
-        return new NotificationResponse(request.getMessage(), "sent");
+        return notificationService.sendNotification(request);
     }
 }
